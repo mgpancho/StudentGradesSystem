@@ -1,14 +1,16 @@
-﻿namespace StudentGradesSystem
+namespace StudentGradesSystem
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            //declaring select array 
             string[] select = { "[1] Enroll Students", "[2] Enter Student Grades", "[3] Show Student Grades", "[4] Show Top Student", "[5] Exit" };
 
             // Total number of students
             int totalStudents = 0;
 
+            //initializing instances
             EnrollStudent e = new EnrollStudent();
             StudentGrades n = new StudentGrades();
 
@@ -62,17 +64,25 @@
                 Console.WriteLine("\nEnroll Students");
 
                 enrolledStudents.Clear(); // Clear the list before enrolling new students
-
+       
                 // Loop to add students
                 for (int i = 1; i <= totalStudents; i++)
                 {
-                    Console.Write($"\nEnter the name of student #{i}: ");
-                    string studentName = Console.ReadLine();
+                    string studentName;
+                    int InvalidInput = 0;
+                    do
+                    {
+                        Console.Write($"\nEnter the name of student #{i}: ");
+                        studentName = Convert.ToString(Console.ReadLine());
 
-                    // Add the student name to the list
+                        if (string.IsNullOrEmpty(studentName))
+                            {
+                                 Console.WriteLine("Student Name is required!");
+                            }
+                        
+                    } while (string.IsNullOrEmpty(studentName));
                     enrolledStudents.Add(studentName);
 
-                    // Ask if the user wants to add more students
                     if (i < totalStudents)
                     {
                         Console.Write("Do you want to add another student? (Y/N): ");
@@ -83,10 +93,12 @@
                         {
                             break; // Exit
                         }
-                    }else
+                    }
+                    else
                     {
                         Console.WriteLine("Successfully Enrolled Student/s!");
                     }
+
                 }
             }
 
@@ -103,13 +115,15 @@
 
             public void EnterGrades(List<string> enrolledStudents)
             {
+            
                 Console.WriteLine("\nEnter Student Grades");
 
                 foreach (var student in enrolledStudents)
                 {
+                   
                     Console.Write($"\nStudent Name: {student}\nScience: ");
                     int scienceGrade = Convert.ToInt32(Console.ReadLine());
-                    Console.Write("Math: ");
+                    Console.Write("Math: ");        
                     int mathGrade = Convert.ToInt32(Console.ReadLine());
                     Console.Write("English: ");
                     int englishGrade = Convert.ToInt32(Console.ReadLine());
